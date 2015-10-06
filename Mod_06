@@ -1,0 +1,39 @@
+# Module 06: User Input and Error Handling
+# Cont'd from Mod 05
+
+# Temperature (C) and Relative Humidity (%) data for a 24 hour period (05/28/2014 0:00 through 05/29/2014 0:00) from the Lower Deer Point weather station at the Dry Creek Experimental Watershed.
+
+T_a = [12.6, 12.6, 9.3, 9.6, 9.3, 9.1, 8.9, 10.2, 11.3, 11.3, 11.3, 10.1, 10.7, 12.2, 12.8, 12.1, 11.4, 10.4, 10, 8.7, 6.8, 4.8, 4, 3.2, 2.7];
+RH_a = [49.55, 52.68, 69.42, 70.6, 70.4, 70.2, 71.1, 66.51, 66.94, 71, 76, 72.9, 69.56, 60.3, 51.95, 53.95, 49.45, 43.82, 39.99, 42.73, 53.16, 57.23, 64.82, 65.8, 62.06];
+
+# Defined function to obtain Saturated Vapor Pressures relative to gathered temperatures
+
+def getSatVaporPressure(T):
+    if T <= 0.0:
+        esat_I = 0.6108**(21.875*T/(T+265.50))  #sat vapor pressure (ice) kPa
+        return esat_I
+
+    else:
+        esat_W = 0.6108**(17.27*T/(237.30+T))  #sat vapor pressure (water) kPa
+
+        return esat_W
+
+# Defined function to obtain Actual Vapor Pressure for collected data (Temp & RH)
+
+def getVaporPressure(RH,T):
+    e_a = RH * getSatVaporPressure(T)       #kPa
+    return e_a
+
+# Defined function to obtain Vapor Pressure Deficit
+
+def getVPD(T,RH):
+    e_deficit = getSatVaporPressure(T) - getVaporPressure(RH,T)
+    return e_deficit
+
+# For loop to obtain calculations of vapor pressure deficits for each recorded temperature and relative humidity from list above
+
+VPD_c=[];
+for T in T_a:
+    for RH in RH_a:
+        VPD = getVPD(T,RH)
+        print 'For 28 May 2014, when T=%.2f degrees C, RH=%.2f percent, and VPD=%.2f kPa.' % (T,RH,VPD)
