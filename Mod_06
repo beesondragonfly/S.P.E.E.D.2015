@@ -1,5 +1,6 @@
 # Module 06: User Input and Error Handling
-# Cont'd from Mod 05
+from math import exp
+import sys
 
 # Temperature (C) and Relative Humidity (%) data for a 24 hour period (05/28/2014 0:00 through 05/29/2014 0:00) from the Lower Deer Point weather station at the Dry Creek Experimental Watershed.
 
@@ -10,11 +11,11 @@ RH_a = [49.55, 52.68, 69.42, 70.6, 70.4, 70.2, 71.1, 66.51, 66.94, 71, 76, 72.9,
 
 def getSatVaporPressure(T):
     if T <= 0.0:
-        esat_I = 0.6108**(21.875*T/(T+265.50))  #sat vapor pressure (ice) kPa
+        esat_I = 0.6108*exp(21.875*T/(T+265.50))  # esat (ice) kPa
         return esat_I
 
     else:
-        esat_W = 0.6108**(17.27*T/(237.30+T))  #sat vapor pressure (water) kPa
+        esat_W = 0.6108*exp(17.27*T/(237.30+T))  # esat (water) kPa
 
         return esat_W
 
